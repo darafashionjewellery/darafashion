@@ -1,0 +1,1025 @@
+@import "tailwindcss";
+
+/* ==========================================
+   DARA — CREAM, PEACH & WINE JEWELLERY THEME
+
+   How this file works (read before editing):
+   • Components are styled with Tailwind utilities (bg-brand, text-ink, border-line …).
+     The @theme block maps those names onto the DARA palette below, so most colour
+     changes only need an edit there.
+   • A few components use built-in utilities (bg-white, bg-ink …) or need extra polish
+     that utilities cannot express (product card frame, price colour, festive banner).
+     The "Component polish" section near the end handles those with scoped selectors —
+     no .tsx changes needed.
+========================================== */
+
+/* Palette reference (also available to custom CSS as plain variables) */
+:root {
+  --dara-bg: #fff5f0;
+  --dara-bg-secondary: #fff0e8;
+  --dara-surface: #fff8f4;
+  --dara-white: #ffffff;
+
+  --dara-wine: #880e4f;
+  --dara-raspberry: #c2185b;
+  --dara-pink: #f50057;
+  --dara-peach: #ffccbc;
+  --dara-yellow: #ffe680;
+  --dara-orange: #f57c00;
+
+  --dara-text: #2b1520;
+  --dara-muted: #6e5560;
+  --dara-border: #f5ddd5;
+
+  --dara-radius: 12px;
+  --dara-radius-lg: 18px;
+
+  --dara-shadow: 0 4px 16px rgba(80, 20, 45, 0.07);
+  --dara-shadow-hover: 0 10px 28px rgba(80, 20, 45, 0.13);
+}
+
+@theme {
+  /* Brand */
+  --color-brand: #880e4f; /* wine — primary buttons, announcement bar, badges (white text 9.4:1) */
+  --color-brand-dark: #c2185b; /* raspberry — hover, links, active nav text (5.5:1 on cream) */
+  --color-brand-soft: #ffe3d8; /* peach tint — selected / highlighted surfaces */
+  --color-accent: #f50057; /* pink — hearts, stars, active-nav underline, focus ring (icons only, not text) */
+  --color-vibrant: #f50057;
+  --color-raspberry: #c2185b;
+  --color-peach: #ffccbc;
+  --color-yellow: #ffe680; /* festive promotions only */
+  --color-orange: #f57c00; /* festive promotions only */
+
+  /* Backgrounds */
+  --color-page: #fff5f0; /* main background */
+  --color-surface: #fff8f4; /* cards / panels */
+  --color-surface-light: #ffffff;
+  --color-cream: #ffe6dc; /* peach panels: hero, image containers, chips */
+  --color-cream-light: #fff0e8; /* alternating sections */
+
+  /* Text */
+  --color-ink: #2b1520; /* dark plum — headings, body text, footer background */
+  --color-muted: #6e5560; /* secondary text */
+  --color-subtle: #8a7380; /* placeholders, small counts (4:1) */
+  --color-beige: #ffccbc; /* peach — decorative, footer tagline */
+
+  /* Borders */
+  --color-stone: #8a7380; /* icons, filter counts, strong borders (4:1) */
+  --color-line: #f5ddd5; /* border */
+
+  /* Status */
+  --color-sage: #52b788;
+  --color-sage-dark: #2d7a55; /* "In stock", savings (4.9:1 on cream) */
+  --color-danger: #c62828;
+
+  /* Typography */
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Jost", system-ui, sans-serif;
+
+  /* Radius */
+  --radius-card: 12px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-card: 0 4px 16px rgb(80 20 45 / 7%);
+  --shadow-lift: 0 10px 28px rgb(80 20 45 / 13%);
+  --shadow-brand: 0 6px 20px rgb(136 14 79 / 22%);
+
+  /* Animations */
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-up: slide-up 0.4s ease-out;
+  --animate-slide-in-left: slide-in-left 0.25s ease-out;
+  --animate-slide-in-right: slide-in-right 0.25s ease-out;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-in-left {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+  }
+
+  @keyframes slide-in-right {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+}
+
+/* ==========================================
+   GLOBAL STYLES
+========================================== */
+
+@layer base {
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    @apply bg-page font-sans text-ink antialiased;
+    margin: 0;
+    min-width: 320px;
+    /* No sideways scrolling on any screen size (clip keeps the sticky header working) */
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-semibold text-ink;
+  }
+
+  a {
+    transition: color 0.2s ease;
+  }
+
+  button:not(:disabled),
+  [role="button"] {
+    cursor: pointer;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  input, textarea, select, button {
+    font: inherit;
+  }
+
+  ::selection {
+    background: var(--color-peach);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}
+
+/* ==========================================
+   LAYOUT UTILITIES
+========================================== */
+
+@utility container-page {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+@utility section-space {
+  @apply py-10 sm:py-14 lg:py-20;
+}
+
+@utility section-heading {
+  @apply mb-3 font-serif text-3xl font-semibold
+    tracking-tight text-ink sm:text-4xl;
+}
+
+@utility section-subtitle {
+  @apply mx-auto max-w-2xl text-sm leading-7
+    text-muted sm:text-base;
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2
+    rounded-pill px-6 py-3 text-sm font-medium
+    tracking-wider uppercase transition-all duration-300
+    disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+@utility btn-primary {
+  @apply btn bg-brand text-white
+    hover:bg-brand-dark hover:shadow-brand;
+}
+
+@utility btn-secondary {
+  @apply btn border border-brand bg-white
+    text-brand hover:bg-brand-soft;
+}
+
+@utility btn-dark {
+  @apply btn bg-ink text-white hover:bg-brand;
+}
+
+@utility btn-ghost {
+  @apply btn px-3 text-ink hover:text-brand-dark;
+}
+
+@utility btn-sm {
+  @apply px-4 py-2 text-xs;
+}
+
+/* ==========================================
+   INPUTS
+========================================== */
+
+@utility input {
+  @apply w-full rounded-xl border border-line
+    bg-white px-4 py-3 text-sm text-ink
+    placeholder:text-subtle
+    transition-all duration-200
+    focus:border-brand-dark focus:ring-2
+    focus:ring-brand-dark/15 focus:outline-none;
+}
+
+@utility input-error {
+  @apply border-danger focus:border-danger
+    focus:ring-danger/20;
+}
+
+@utility label {
+  @apply mb-2 block text-xs font-semibold
+    tracking-wider text-muted uppercase;
+}
+
+/* ==========================================
+   SHARED UTILITIES USED BY COMPONENTS
+========================================== */
+
+@utility card {
+  @apply rounded-card border border-line bg-white;
+}
+
+@utility eyebrow {
+  @apply text-xs font-medium tracking-[0.25em] text-brand-dark uppercase;
+}
+
+@utility link {
+  @apply text-brand-dark underline-offset-4 transition-colors hover:text-brand hover:underline;
+}
+
+@layer components {
+  .prose-dara p {
+    @apply mb-4 leading-relaxed text-muted;
+  }
+
+  .prose-dara h2 {
+    @apply mt-8 mb-3 text-2xl;
+  }
+
+  .prose-dara ul {
+    @apply mb-4 list-disc space-y-1 pl-5 text-muted;
+  }
+}
+
+/* ==========================================
+   OPTIONAL COMPONENT CLASSES
+   The classes from here to "SCROLLBAR" (.site-header, .product-card, .hero-section …)
+   are not referenced by any component yet, so they have no visible effect today.
+   They are kept in the cream palette so they match if markup adopts them later.
+========================================== */
+
+/* HEADER & NAVIGATION */
+@layer components {
+  .announcement-bar {
+    background: var(--color-brand);
+    color: white;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgb(255 248 244 / 95%);
+    border-bottom: 1px solid var(--color-line);
+    backdrop-filter: blur(12px);
+  }
+
+  .navbar-link {
+    position: relative;
+    color: var(--color-ink);
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .navbar-link:hover,
+  .navbar-link.active {
+    color: var(--color-brand-dark);
+  }
+
+  .navbar-link::after {
+    position: absolute;
+    right: 0;
+    bottom: -7px;
+    left: 0;
+    height: 2px;
+    background: var(--color-accent);
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .navbar-link:hover::after,
+  .navbar-link.active::after {
+    transform: scaleX(1);
+  }
+
+  .icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: var(--color-ink);
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .icon-button:hover {
+    background: var(--color-brand-soft);
+    color: var(--color-brand-dark);
+  }
+}
+
+/* HERO */
+@layer components {
+  .hero-section {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 80% 40%, rgb(255 204 188 / 60%), transparent 60%), var(--color-cream);
+    isolation: isolate;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding-block: clamp(48px, 7vw, 100px);
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: var(--color-brand-dark);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    max-width: 700px;
+    font-family: var(--font-serif);
+    font-size: clamp(38px, 5.5vw, 76px);
+    font-weight: 600;
+    line-height: 1.03;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+  }
+
+  .hero-title span {
+    color: var(--color-brand);
+  }
+
+  .hero-description {
+    max-width: 500px;
+    margin-top: 22px;
+    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 1.9;
+  }
+
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
+
+  .hero-image:hover {
+    transform: scale(1.03);
+  }
+}
+
+/* CATEGORY CARDS */
+@layer components {
+  .category-card {
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .category-card:hover {
+    box-shadow: var(--shadow-lift);
+  }
+
+  .category-image-wrap {
+    overflow: hidden;
+    background: var(--color-cream);
+    aspect-ratio: 4 / 5;
+  }
+
+  .category-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .category-card:hover .category-image {
+    transform: scale(1.06);
+  }
+
+  .category-title {
+    padding: 14px 8px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+}
+
+/* PRODUCT CARDS */
+@layer components {
+  .product-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .product-card:hover {
+    box-shadow: var(--shadow-lift);
+  }
+
+  .product-image-wrap {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: var(--color-cream);
+    aspect-ratio: 4 / 5;
+  }
+
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .product-card:hover .product-image {
+    transform: scale(1.045);
+  }
+
+  .product-name {
+    margin-top: 12px;
+    overflow: hidden;
+    color: var(--color-ink);
+    font-size: 13px;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .product-price {
+    margin-top: 6px;
+    color: var(--color-brand);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .product-original-price {
+    margin-left: 8px;
+    color: var(--color-subtle);
+    font-size: 12px;
+    font-weight: 400;
+    text-decoration: line-through;
+  }
+
+  .product-discount {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 5px;
+    background: var(--color-brand-soft);
+    padding: 4px 7px;
+    color: var(--color-brand-dark);
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .product-wishlist {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--color-line);
+    border-radius: 50%;
+    background: rgb(255 255 255 / 92%);
+    color: var(--color-ink);
+    transition: all 0.2s ease;
+  }
+
+  .product-wishlist:hover,
+  .product-wishlist.is-active {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .product-quick-view {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: var(--color-brand);
+    padding: 11px;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.25s ease;
+  }
+
+  .product-card:hover .product-quick-view,
+  .product-card:focus-within .product-quick-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* COLLECTION BANNERS */
+@layer components {
+  .collection-banner {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    border-radius: var(--dara-radius-lg);
+    background: var(--color-cream);
+    isolation: isolate;
+  }
+
+  .collection-banner::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, rgb(255 230 220 / 92%) 0%, rgb(255 230 220 / 40%) 60%, transparent 100%);
+    content: "";
+  }
+
+  .collection-banner-title {
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.08;
+  }
+}
+
+/* FILTERS & SORTING */
+@layer components {
+  .filter-panel {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    padding: 20px;
+  }
+
+  .filter-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 15px;
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-ink);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .filter-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-block: 9px;
+    color: var(--color-muted);
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .filter-option input {
+    accent-color: var(--color-brand);
+  }
+
+  .filter-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    padding: 9px 16px;
+    color: var(--color-muted);
+    font-size: 12px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+
+  .filter-chip:hover,
+  .filter-chip.active {
+    border-color: var(--color-brand);
+    background: var(--color-brand);
+    color: white;
+  }
+
+  .sort-select {
+    min-height: 44px;
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    background: white;
+    padding: 0 14px;
+    color: var(--color-ink);
+    font-size: 13px;
+  }
+}
+
+/* MODALS & DRAWERS */
+@layer components {
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: rgb(43 21 32 / 55%);
+    backdrop-filter: blur(4px);
+    animation: fade-in 0.2s ease-out;
+  }
+
+  .modal-panel {
+    border: 1px solid var(--color-line);
+    border-radius: var(--dara-radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-lift);
+    animation: slide-up 0.25s ease-out;
+  }
+
+  .drawer-panel {
+    position: fixed;
+    inset-block: 0;
+    right: 0;
+    z-index: 90;
+    width: min(440px, 100%);
+    overflow-y: auto;
+    border-left: 1px solid var(--color-line);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-lift);
+  }
+}
+
+/* CART & CHECKOUT */
+@layer components {
+  .cart-item {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr);
+    gap: 16px;
+    border-bottom: 1px solid var(--color-line);
+    padding-block: 18px;
+  }
+
+  .cart-item-image {
+    width: 90px;
+    aspect-ratio: 4 / 5;
+    border-radius: 10px;
+    background: var(--color-cream);
+    object-fit: cover;
+  }
+
+  .checkout-card {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: white;
+    padding: 22px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .checkout-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-muted);
+    font-size: 12px;
+  }
+
+  .checkout-step.active {
+    color: var(--color-brand);
+    font-weight: 600;
+  }
+
+  .checkout-step-number {
+    display: flex;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-line);
+    border-radius: 50%;
+  }
+
+  .checkout-step.active .checkout-step-number {
+    border-color: var(--color-brand);
+    background: var(--color-brand);
+    color: white;
+  }
+}
+
+/* NEWSLETTER & FOOTER */
+@layer components {
+  .newsletter-section {
+    border-block: 1px solid var(--color-line);
+    background: radial-gradient(ellipse at top, rgb(255 204 188 / 55%), transparent 70%), var(--color-cream-light);
+    padding: 56px 20px;
+    text-align: center;
+  }
+
+  .site-footer {
+    border-top: 1px solid var(--color-line);
+    background: var(--color-ink);
+    color: #fff4f0;
+  }
+
+  .site-footer h3,
+  .site-footer h4 {
+    color: white;
+  }
+
+  .site-footer a {
+    color: rgb(255 244 240 / 75%);
+    font-size: 13px;
+  }
+
+  .site-footer a:hover {
+    color: var(--color-peach);
+  }
+
+  .footer-divider {
+    border-color: rgb(255 255 255 / 15%);
+  }
+}
+
+/* BADGES & EMPTY STATES */
+@layer components {
+  .badge-brand {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 5px;
+    background: var(--color-brand);
+    padding: 5px 9px;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .badge-sale {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 5px;
+    background: var(--color-brand-soft);
+    padding: 5px 9px;
+    color: var(--color-brand-dark);
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .empty-state {
+    display: flex;
+    min-height: 240px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 32px 20px;
+    text-align: center;
+  }
+
+  .empty-state p {
+    max-width: 380px;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+}
+
+/* ==========================================
+   SCROLLBAR
+========================================== */
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ==========================================
+   COMPONENT POLISH (applies to the live markup)
+
+   Rules are in the `utilities` layer and prefixed with `html` so they beat the plain
+   utility (0,1,0) while still losing to hover/focus variants (0,2,0) — hover effects
+   keep working. Selectors target stable markup patterns, never global elements.
+========================================== */
+
+@layer utilities {
+  /* --- Header: cream instead of white, nav separators, active link underline in pink --- */
+  html header.sticky {
+    background-color: rgb(255 248 244 / 95%);
+  }
+
+  html nav[aria-label="Main"] > ul > li {
+    position: relative;
+  }
+
+  html nav[aria-label="Main"] > ul > li + li::before {
+    position: absolute;
+    top: 50%;
+    left: -0.5rem;
+    width: 1px;
+    height: 12px;
+    background: var(--color-line);
+    content: "";
+    transform: translateY(-50%);
+  }
+
+  @media (min-width: 80rem) {
+    html nav[aria-label="Main"] > ul > li + li::before {
+      left: -1rem;
+    }
+  }
+
+  html nav[aria-label="Main"] > ul > li > a {
+    position: relative;
+  }
+
+  html nav[aria-label="Main"] > ul > li > a::after {
+    position: absolute;
+    right: 0;
+    bottom: 6px;
+    left: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--color-accent);
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  html nav[aria-label="Main"] > ul > li > a:hover::after,
+  html nav[aria-label="Main"] > ul > li > a[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+
+  /* --- Footer headings: the base rule paints all headings plum, which vanishes on the plum footer --- */
+  html footer.bg-ink :is(h2, h3, h4) {
+    color: #fff4f0;
+  }
+
+  /* --- Active tabs, current page number, completed step → wine (footer keeps plum) --- */
+  html .bg-ink:not(footer) {
+    background-color: var(--color-brand);
+  }
+
+  /* --- Product cards: thin peach frame, soft shadow on hover (no layout shift) --- */
+  html article.group > .relative.overflow-hidden.rounded-card {
+    border: 1px solid var(--color-line);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  html article.group:hover > .relative.overflow-hidden.rounded-card {
+    border-color: var(--color-peach);
+    box-shadow: var(--shadow-lift);
+  }
+
+  /* --- Prices in wine; "% off" as a small peach badge --- */
+  html div.items-baseline.gap-x-2 > span.font-medium:first-child {
+    color: var(--color-brand);
+  }
+
+  html div.items-baseline.gap-x-2 > span.text-sage-dark {
+    border-radius: 999px;
+    background: var(--color-brand-soft);
+    padding: 1px 8px;
+    color: var(--color-brand-dark);
+  }
+
+  /* --- Wishlist & selected states: pink outlines --- */
+  html .border-brand.bg-brand-soft {
+    border-color: var(--color-accent);
+  }
+
+  /* --- Festive banner: wine → raspberry → orange glow, yellow eyebrow, yellow button --- */
+  html .rounded-2xl.bg-brand-dark {
+    background-image:
+      radial-gradient(ellipse at 15% 110%, rgb(245 124 0 / 45%), transparent 55%),
+      linear-gradient(135deg, var(--color-brand) 0%, var(--color-brand-dark) 70%);
+  }
+
+  html .rounded-2xl.bg-brand-dark > div > p:first-child {
+    color: var(--color-yellow);
+  }
+
+  html .rounded-2xl.bg-brand-dark .btn-dark {
+    background-color: var(--color-yellow);
+    color: var(--color-ink);
+  }
+
+  html .rounded-2xl.bg-brand-dark .btn-dark:hover {
+    background-color: var(--color-orange);
+    color: white;
+  }
+
+  /* --- Mobile: categories scroll sideways instead of stacking --- */
+  @media (max-width: 39.99rem) {
+    html div.grid.grid-cols-2.sm\:grid-cols-4 {
+      display: flex;
+      gap: 0.875rem;
+      margin-inline: -1rem;
+      padding-inline: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    html div.grid.grid-cols-2.sm\:grid-cols-4::-webkit-scrollbar {
+      display: none;
+    }
+
+    html div.grid.grid-cols-2.sm\:grid-cols-4 > a {
+      flex: 0 0 34%;
+      scroll-snap-align: start;
+    }
+  }
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+========================================== */
+
+@media (max-width: 640px) {
+  .hero-content {
+    padding-block: 40px;
+  }
+
+  .hero-description {
+    font-size: 14px;
+  }
+
+  .category-title {
+    padding: 10px 5px;
+    font-size: 12px;
+  }
+
+  .product-name {
+    font-size: 12px;
+  }
+
+  .product-price {
+    font-size: 14px;
+  }
+
+  .product-quick-view {
+    display: none;
+  }
+
+  .filter-panel {
+    padding: 14px;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

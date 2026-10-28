@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="600" height="750">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF0EC"/><stop offset="1" stop-color="#FFD4C7"/></linearGradient></defs>
+  <rect width="600" height="750" fill="url(#g)"/>
+  <g transform="translate(-100 -110) scale(0.95)">
+    <path d="M190 240 Q400 720 610 240" stroke="#C2185B" stroke-width="5" fill="none"/>
+    <circle cx="196.6" cy="344.4" r="11" fill="#FF8A80"/><circle cx="207.9" cy="409.8" r="11" fill="#FF8A80"/><circle cx="224.5" cy="470.6" r="11" fill="#FF8A80"/><circle cx="245.8" cy="525.1" r="11" fill="#FF8A80"/><circle cx="271.3" cy="571.9" r="11" fill="#FF8A80"/><circle cx="300.3" cy="609.6" r="11" fill="#FF8A80"/><circle cx="332.0" cy="637.4" r="11" fill="#FF8A80"/><circle cx="365.5" cy="654.3" r="11" fill="#FF8A80"/><circle cx="400.0" cy="660.0" r="11" fill="#FF8A80"/><circle cx="434.5" cy="654.3" r="11" fill="#FF8A80"/><circle cx="468.0" cy="637.4" r="11" fill="#FF8A80"/><circle cx="499.7" cy="609.6" r="11" fill="#FF8A80"/><circle cx="528.7" cy="571.9" r="11" fill="#FF8A80"/><circle cx="554.2" cy="525.1" r="11" fill="#FF8A80"/><circle cx="575.5" cy="470.6" r="11" fill="#FF8A80"/><circle cx="592.1" cy="409.8" r="11" fill="#FF8A80"/><circle cx="603.4" cy="344.4" r="11" fill="#FF8A80"/>
+    <circle cx="230.1" cy="486.9" r="5" fill="#C2185B"/><circle cx="263.6" cy="559.4" r="5" fill="#C2185B"/><circle cx="304.7" cy="614.2" r="5" fill="#C2185B"/><circle cx="351.0" cy="648.4" r="5" fill="#C2185B"/><circle cx="400.0" cy="660.0" r="5" fill="#C2185B"/><circle cx="449.0" cy="648.4" r="5" fill="#C2185B"/><circle cx="495.3" cy="614.2" r="5" fill="#C2185B"/><circle cx="536.4" cy="559.4" r="5" fill="#C2185B"/><circle cx="569.9" cy="486.9" r="5" fill="#C2185B"/>
+    <path d="M400 640 L430 690 L400 760 L370 690 Z" fill="#880E4F" stroke="#C2185B" stroke-width="4"/>
+    <circle cx="400" cy="635" r="16" fill="#FF8A80" stroke="#C2185B" stroke-width="4"/></g>
+  <text x="576" y="726" text-anchor="end" font-family="Georgia, serif" font-size="15" letter-spacing="4" fill="#C2185B" opacity="0.45">DARA</text>
+</svg>

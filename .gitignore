@@ -1,0 +1,20 @@
+# Dependencies (reinstall with npm install)
+node_modules/
+
+# Build output (recreate with npm run build)
+dist/
+coverage/
+
+# Secrets — never commit real environment files
+.env
+.env.*
+!.env.example
+
+# Images uploaded through the admin (back these up separately)
+server/uploads/
+
+# Logs, OS and editor files
+*.log
+.DS_Store
+Thumbs.db
+.claude/settings.local.json

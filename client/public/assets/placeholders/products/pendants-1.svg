@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF5F1"/><stop offset="1" stop-color="#FFE0D6"/></linearGradient></defs>
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g transform="translate(0 0) scale(1)">
+    <path d="M220 180 L400 520 L580 180" stroke="#880E4F" stroke-width="4" fill="none" stroke-dasharray="10 8"/>
+    <circle cx="400" cy="540" r="22" fill="#FFCCBC" stroke="#880E4F" stroke-width="4"/>
+    <path d="M400 565 C470 640 470 740 400 790 C330 740 330 640 400 565 Z" fill="#FFCCBC" stroke="#880E4F" stroke-width="5"/>
+    <path d="M400 625 C435 665 435 720 400 745 C365 720 365 665 400 625 Z" fill="#EC407A"/></g>
+  <text x="776" y="976" text-anchor="end" font-family="Georgia, serif" font-size="20" letter-spacing="4" fill="#880E4F" opacity="0.45">DARA · PLACEHOLDER</text>
+</svg>
