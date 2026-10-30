@@ -84,8 +84,8 @@ export function CollectionsIndexPage() {
   useDocumentTitle('Collections')
   const { collections, catalogLoaded } = useSite()
   const extra = [
-    { slug: 'new-arrivals', to: '/new-arrivals', name: 'New Arrivals', tagline: 'Fresh styles, just in', image: assets.banners.everyday },
-    { slug: 'best-sellers', to: '/best-sellers', name: 'Best Sellers', tagline: 'Our most-loved designs', image: assets.banners.hero },
+    { slug: 'new-arrivals', to: '/new-arrivals', name: 'New Arrivals', tagline: 'Fresh styles, just in', image: assets.banners.newarrial},
+    { slug: 'best-sellers', to: '/best-sellers', name: 'Best Sellers', tagline: 'Our most-loved designs', image: assets.banners.bestsellers },
   ]
   const cards = [...collections.map((c) => ({ slug: c.slug, to: `/collections/${c.slug}`, name: c.name, tagline: c.tagline, image: c.image })), ...extra]
   return (

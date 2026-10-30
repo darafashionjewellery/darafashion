@@ -12,7 +12,11 @@ const ph = (path: string) => `/assets/placeholders/${path}`
 
 export const assets = {
   /** Set to '/assets/logo.webp' once the DARA logo file has been added. null renders the text wordmark. */
-  logo: null as string | null,
+  logo: '/assets/logo.webp' as string | null,
+  /** Same logo with a light tagline, for the black header and dark footer. */
+  logoOnDark: '/assets/logo-on-dark.webp' as string | null,
+  /** Brand mark shown beside the DARA wordmark (same artwork as the favicon). */
+  logoMark: '/assets/logo-mark.webp' as string | null,
 
   banners: {
     hero: '/assets/banners/hero.png',
@@ -21,14 +25,17 @@ export const assets = {
     everyday: '/assets/banners/everyday.png',
     category: '/assets/banners/category.png',
     about: ph('banners/about.svg'),
+    bestsellers: '/assets/banners/bestsellers.png',
+    newarrial :'/assets/banners/newarrial.png'
   },
 
   occasions: {
-    wedding: '/assets/occasions/wedding.jpg',
+    wedding: '/assets/occasions/wedding.png',
     festive: '/assets/occasions/festive.png',
-    party: ph('occasions/party.svg'),
+    party: '/assets/occasions/party.png',
     daily: '/assets/occasions/daily.png',
-    gifting: ph('occasions/gifting.svg'),
+    gifting: '/assets/occasions/gift.png',
+   
   },
 }
 

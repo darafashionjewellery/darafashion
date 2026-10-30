@@ -45,8 +45,16 @@ export const env = {
     // "brevo" sends through the Brevo transactional email API (BREVO_API_KEY).
     // "smtp" works with Amazon SES SMTP, Resend SMTP or any other SMTP provider.
     // "console" prints OTP emails to the server log for local development and is refused in production.
-    transport: process.env.EMAIL_TRANSPORT || (process.env.BREVO_API_KEY ? 'brevo' : isProd ? 'smtp' : 'console'),
+    // "resend" sends through the Resend email API (RESEND_API_KEY); the From address uses RESEND_FROM.
+    transport:
+      process.env.EMAIL_TRANSPORT ||
+      (process.env.RESEND_API_KEY ? 'resend' : process.env.BREVO_API_KEY ? 'brevo' : isProd ? 'smtp' : 'console'),
     from: process.env.EMAIL_FROM || 'DARA Fashions <no-reply@localhost>',
+    resend: {
+      apiKey: process.env.RESEND_API_KEY || '',
+      // Must be on a domain verified in Resend. onboarding@resend.dev only delivers to the Resend account owner.
+      from: process.env.RESEND_FROM || 'DARA Fashions <onboarding@resend.dev>',
+    },
     brevo: {
       apiKey: process.env.BREVO_API_KEY || '',
       senderEmail: process.env.BREVO_SENDER_EMAIL || '',

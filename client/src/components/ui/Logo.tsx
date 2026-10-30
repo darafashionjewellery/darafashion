@@ -17,17 +17,28 @@ interface LogoProps {
  */
 export function Logo({ className, tagline = true, tone = 'dark', asLink = true }: LogoProps) {
   const [imgFailed, setImgFailed] = useState(false)
+  const logoSrc = tone === 'light' ? (assets.logoOnDark ?? assets.logo) : assets.logo
   const content =
-    assets.logo && !imgFailed ? (
-      <img src={assets.logo} alt="DARA — Fashion Jewellery & Accessories" className="h-full w-auto object-contain" onError={() => setImgFailed(true)} />
+    logoSrc && !imgFailed ? (
+      <img src={logoSrc} alt="DARA — Fashion Jewellery & Accessories" className="h-[3em] w-auto max-w-none object-contain" onError={() => setImgFailed(true)} />
     ) : (
-      <span className="flex flex-col items-center leading-none">
-        <span className={cn('font-serif text-[1.9em] font-medium tracking-[0.35em] pl-[0.35em]', tone === 'dark' ? 'text-ink' : 'text-white')}>DARA</span>
-        {tagline && (
-          <span className={cn('mt-1 text-[0.5em] font-medium tracking-[0.22em] uppercase', tone === 'dark' ? 'text-brand-dark' : 'text-beige')}>
-            Fashion Jewellery &amp; Accessories
+      <span className="flex items-center gap-[0.6em]">
+        {assets.logoMark && <img src={assets.logoMark} alt="" aria-hidden className="h-[2.9em] w-auto shrink-0" />}
+        <span className="flex flex-col items-center leading-none">
+          <span
+            className={cn(
+              'font-serif text-[1.9em] font-semibold tracking-[0.35em] pl-[0.35em]',
+              tone === 'dark' ? 'bg-gradient-to-r from-[#e2603a] to-[#ee8a5e] bg-clip-text text-transparent' : 'text-white',
+            )}
+          >
+            DARA
           </span>
-        )}
+          {tagline && (
+            <span className={cn('mt-1 text-[0.5em] font-medium tracking-[0.22em] uppercase', tone === 'dark' ? 'text-[#e8825a]' : 'text-beige')}>
+              Fashion Jewellery &amp; Accessories
+            </span>
+          )}
+        </span>
       </span>
     )
 

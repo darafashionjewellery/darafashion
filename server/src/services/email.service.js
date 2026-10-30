@@ -19,6 +19,33 @@ function getTransporter() {
     return transporter;
   }
 
+  if (transport === 'resend') {
+    const { apiKey, from } = env.email.resend;
+    if (!apiKey) throw new Error('Resend is not configured. Set RESEND_API_KEY.');
+    transporter = {
+      async sendMail(message) {
+        const res = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            from,
+            to: [message.to],
+            subject: message.subject,
+            text: message.text,
+            ...(message.html ? { html: message.html } : {}),
+          }),
+          signal: AbortSignal.timeout(15000),
+        });
+        if (!res.ok) {
+          const detail = await res.text().catch(() => '');
+          throw new Error(`Resend send failed (${res.status}): ${detail.slice(0, 200)}`);
+        }
+        return res.json();
+      },
+    };
+    return transporter;
+  }
+
   if (transport === 'brevo') {
     const { apiKey, senderEmail, senderName } = env.email.brevo;
     if (!apiKey || !senderEmail) throw new Error('Brevo is not configured. Set BREVO_API_KEY and BREVO_SENDER_EMAIL.');
