@@ -17,22 +17,16 @@ import { ProductGrid } from '../product/ProductCard'
 
 export function HeroBanner() {
   return (
-    <section className="relative overflow-hidden bg-cream">
-      <SmartImage src={assets.banners.hero} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover object-right opacity-60 md:opacity-100" />
-      <div className="absolute inset-0 bg-gradient-to-r from-cream via-cream/85 to-transparent md:via-cream/60" aria-hidden />
-      <div className="container-page relative flex min-h-[460px] items-center py-16 md:min-h-[560px]">
-        <div className="max-w-xl">
-          <p className="eyebrow mb-4">Fashion Jewellery &amp; Accessories</p>
-          <h1 className="text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">Every Occasion Deserves a Little DARA</h1>
-          <p className="mt-5 max-w-md text-base text-muted sm:text-lg">Discover exquisite fashion jewellery crafted to make every moment more beautiful.</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/shop" className="btn-primary">
-              Shop Now
-            </Link>
-            <Link to="/collections" className="btn-secondary">
-              Explore Collections
-            </Link>
-          </div>
+    <section className="relative overflow-hidden bg-ink">
+      <SmartImage src={assets.banners.hero} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover object-[35%_top] md:object-left-top" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 via-45% to-transparent to-70% md:bg-gradient-to-l md:from-black/40 md:via-transparent md:via-50% md:to-transparent" aria-hidden />
+      <div className="container-page relative flex min-h-[560px] items-end justify-center pt-16 pb-10 md:min-h-[600px] md:items-center md:justify-end md:py-16">
+        <div className="max-w-md text-center text-white">
+          <h1 className="text-4xl leading-[1.05] text-white md:text-5xl lg:text-6xl">Every Occasion Deserves a Little DARA</h1>
+          <p className="mt-4 font-serif text-lg italic md:text-xl lg:text-2xl">Fashion jewellery crafted to make every moment more beautiful.</p>
+          <Link to="/shop" className="mt-8 inline-block rounded-md bg-white px-7 py-3 text-sm font-semibold tracking-wider text-ink uppercase transition-colors hover:bg-cream">
+            Shop Now
+          </Link>
         </div>
       </div>
     </section>
@@ -109,10 +103,8 @@ export function CollectionBanner({ slug, fallbackTitle, fallbackText, variant }:
   if (variant === 'bridal') {
     return (
       <section className="container-page py-8">
-        <div className="relative overflow-hidden rounded-2xl bg-cream">
-          <SmartImage src={collectionBanner(slug, c?.bannerImage)} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover object-right" />
-          <div className="absolute inset-0 bg-gradient-to-r from-cream via-cream/80 to-transparent" aria-hidden />
-          <div className="relative max-w-lg px-6 py-16 sm:px-12 sm:py-24">
+        <div className="grid overflow-hidden rounded-2xl bg-cream md:grid-cols-2">
+          <div className="flex flex-col items-start justify-center px-6 py-14 sm:px-12">
             <p className="eyebrow mb-3">{c?.tagline ?? 'For your most special day'}</p>
             <h2 className="text-4xl sm:text-5xl">{title}</h2>
             <p className="mt-4 text-muted">{text}</p>
@@ -120,6 +112,7 @@ export function CollectionBanner({ slug, fallbackTitle, fallbackText, variant }:
               Explore Collection
             </Link>
           </div>
+          <SmartImage src={assets.banners.bridal} alt="" aria-hidden className="h-96 w-full object-cover object-[center_30%] md:h-[520px]" />
         </div>
       </section>
     )
@@ -143,7 +136,7 @@ export function CollectionBanner({ slug, fallbackTitle, fallbackText, variant }:
               </Link>
             </div>
           </div>
-          <SmartImage src={c?.image || collectionBanner(slug)} alt="" aria-hidden className="h-64 w-full object-cover md:h-full" />
+          <SmartImage src={c?.image || collectionBanner(slug)} alt="" aria-hidden className="h-72 w-full object-cover object-[center_80%] md:order-first md:h-[520px]" />
         </div>
       </div>
     </section>

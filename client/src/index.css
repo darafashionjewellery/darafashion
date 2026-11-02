@@ -56,6 +56,7 @@
   --color-surface-light: #ffffff;
   --color-cream: #ffe6dc; /* peach panels: hero, image containers, chips */
   --color-cream-light: #fff0e8; /* alternating sections */
+  --color-festive-wall: #f0f0f0; /* matches the wall in banners/festive.webp */
 
   /* Text */
   --color-ink: #2b1520; /* dark plum — headings, body text, footer background */
@@ -74,7 +75,7 @@
 
   /* Typography */
   --font-serif: "Cormorant Garamond", Georgia, serif;
-  --font-sans: "Jost", system-ui, sans-serif;
+  --font-sans: "Montserrat", system-ui, sans-serif;
 
   /* Radius */
   --radius-card: 12px;
