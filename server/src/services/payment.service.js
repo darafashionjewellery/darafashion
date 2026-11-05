@@ -37,11 +37,15 @@ export function verifyWebhookSignature(rawBody, signature) {
 
 /** Confirms with Razorpay that the payment belongs to the order, matches the amount and is successful. */
 export async function fetchVerifiedPayment(razorpayPaymentId, { razorpayOrderId, amountInr }) {
-  const payment = await getClient().payments.fetch(razorpayPaymentId);
-  const ok =
-    payment.order_id === razorpayOrderId &&
-    payment.amount === Math.round(amountInr * 100) &&
-    payment.currency === 'INR' &&
-    ['captured', 'authorized'].includes(payment.status);
-  return { ok, payment };
+  let payment = await getClient().payments.fetch(razorpayPaymentId);
+  const matches = payment.order_id === razorpayOrderId && payment.amount === Math.round(amountInr * 100) && payment.currency === 'INR';
+  // Accounts without auto-capture leave payments "authorized"; Razorpay refunds those unless captured.
+  if (matches && payment.status === 'authorized') payment = await getClient().payments.capture(payment.id, payment.amount, 'INR');
+  return { ok: matches && payment.status === 'captured', payment };
+}
+
+/** Finds a captured payment for a Razorpay order, e.g. when the checkout callback never reached us. */
+export async function findCapturedPayment(razorpayOrderId, amountInr) {
+  const { items = [] } = await getClient().orders.fetchPayments(razorpayOrderId);
+  return items.find((p) => p.status === 'captured' && p.amount === Math.round(amountInr * 100) && p.currency === 'INR') || null;
 }

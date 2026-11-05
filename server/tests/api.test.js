@@ -307,7 +307,7 @@ describe('payments', () => {
     const order = await pendingOrder(user);
     const body = JSON.stringify({
       event: 'payment.captured',
-      payload: { payment: { entity: { id: 'pay_123', order_id: order.payment.razorpayOrderId, amount: order.total * 100 } } },
+      payload: { payment: { entity: { id: 'pay_123', order_id: order.payment.razorpayOrderId, amount: order.total * 100, currency: 'INR' } } },
     });
     await request(app).post('/api/payments/razorpay/webhook').set('Content-Type', 'application/json').set('x-razorpay-signature', 'bad').send(body).expect(400);
 
@@ -316,6 +316,26 @@ describe('payments', () => {
     const fresh = await Order.findById(order.id);
     assert.equal(fresh.paymentStatus, 'paid');
     assert.equal(fresh.status, 'placed');
+  });
+  test('webhook rejects wrong currency, clears the cart once paid and ignores duplicate events', async () => {
+    const { agent, user } = await login('hook2@example.com');
+    const order = await pendingOrder(user);
+    const p = await Product.findOne({ slug: 'zoya-chandbali-earrings' });
+    await agent.post('/api/cart/items').send({ productId: p.id, quantity: 1 }).expect(201);
+    const send = (currency, id = 'pay_dup') => {
+      const body = JSON.stringify({ event: 'payment.captured', payload: { payment: { entity: { id, order_id: order.payment.razorpayOrderId, amount: order.total * 100, currency } } } });
+      const sig = crypto.createHmac('sha256', 'test_webhook_secret').update(body).digest('hex');
+      return request(app).post('/api/payments/razorpay/webhook').set('Content-Type', 'application/json').set('x-razorpay-signature', sig).send(body).expect(200);
+    };
+    await send('USD');
+    assert.notEqual((await Order.findById(order.id)).paymentStatus, 'paid');
+    assert.equal((await agent.get('/api/cart')).body.items.length, 1, 'cart kept until paid');
+
+    await Promise.all([send('INR'), send('INR', 'pay_other')]);
+    const fresh = await Order.findById(order.id);
+    assert.equal(fresh.paymentStatus, 'paid');
+    assert.equal(fresh.statusHistory.filter((h) => h.note === 'Payment received').length, 1, 'processed once');
+    assert.equal((await agent.get('/api/cart')).body.items.length, 0);
   });
 });
 

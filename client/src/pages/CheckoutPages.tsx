@@ -223,7 +223,9 @@ export function CheckoutPaymentPage() {
 
       const outcome = await openRazorpay(payment, { name: address.fullName, email: user?.email, contact: address.phone }, `Order ${order.orderNumber}`)
       if (outcome.status === 'success') {
-        await orderApi.verifyPayment(order.id, outcome.response)
+        // If verification is interrupted the money may already be taken, so never ask to pay again:
+        // the confirmation page keeps checking while the webhook confirms the payment.
+        await orderApi.verifyPayment(order.id, outcome.response).catch(() => {})
         finish(order.id)
       } else if (outcome.status === 'dismissed') {
         setError('Payment was not completed. Your bag is saved — you can try again.')

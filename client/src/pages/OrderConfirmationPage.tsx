@@ -31,15 +31,18 @@ export default function OrderConfirmationPage() {
   if (error || !order) return <ErrorState message={error ?? 'Order not found'} onRetry={reload} className="container-page my-10" />
 
   const awaitingPayment = order.paymentMethod === 'razorpay' && order.paymentStatus !== 'paid'
+  const paymentFailed = awaitingPayment && (order.paymentStatus === 'failed' || order.status === 'cancelled')
 
   return (
     <div className="bg-cream-light py-12">
       <div className="container-page max-w-3xl">
         <div className="rounded-2xl bg-white p-8 text-center shadow-card sm:p-12">
           {awaitingPayment ? <Clock className="mx-auto size-14 text-brand" aria-hidden /> : <CheckCircle2 className="mx-auto size-14 text-sage-dark" aria-hidden />}
-          <h1 className="mt-4 text-4xl">{awaitingPayment ? 'Confirming your payment' : 'Thank You!'}</h1>
+          <h1 className="mt-4 text-4xl">{paymentFailed ? 'Payment not completed' : awaitingPayment ? 'Confirming your payment' : 'Thank You!'}</h1>
           <p className="mt-2 text-muted">
-            {awaitingPayment
+            {paymentFailed
+              ? 'We could not confirm a payment for this order. If money was deducted, it will be refunded automatically, or contact us with your order number.'
+              : awaitingPayment
               ? 'We are waiting for confirmation from the payment provider. This page will update once it is verified.'
               : 'Your order has been placed successfully.'}
           </p>

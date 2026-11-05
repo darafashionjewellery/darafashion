@@ -19,7 +19,7 @@ export const assets = {
   logoMark: '/assets/logo-mark.webp' as string | null,
 
   banners: {
-    hero: '/assets/banners/hero-saree.webp',
+    hero: '/assets/banners/hero.webp',
     festive: '/assets/banners/festive.webp',
     bridal: '/assets/banners/bridal.webp',
     wedding: '/assets/banners/wedding.png',

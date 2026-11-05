@@ -91,7 +91,8 @@ export async function razorpayWebhook(req, res) {
 
   if (['payment.captured', 'order.paid'].includes(event.event)) {
     const amount = paymentEntity?.amount ?? event.payload?.order?.entity?.amount_paid;
-    if (amount === Math.round(order.total * 100)) await markOrderPaid(order, paymentEntity?.id || order.payment.razorpayPaymentId);
+    const currency = paymentEntity?.currency ?? event.payload?.order?.entity?.currency;
+    if (amount === Math.round(order.total * 100) && currency === 'INR') await markOrderPaid(order, paymentEntity?.id || order.payment.razorpayPaymentId);
   } else if (event.event === 'payment.failed') {
     await markPaymentFailed(order, paymentEntity?.error_description);
   }

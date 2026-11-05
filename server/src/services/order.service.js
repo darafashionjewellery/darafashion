@@ -5,7 +5,7 @@ import { env, razorpayEnabled } from '../config/env.js';
 import { ApiError } from '../utils/ApiError.js';
 import { priceLines, computeTotals } from './pricing.service.js';
 import { reserveStock, releaseStock } from './stock.service.js';
-import { createRazorpayOrder } from './payment.service.js';
+import { createRazorpayOrder, findCapturedPayment } from './payment.service.js';
 import { sendOrderConfirmationEmail } from './email.service.js';
 
 const stockLines = (order) => order.items.map((i) => ({ productId: i.product, variantSku: i.variantSku, quantity: i.quantity, name: i.name }));
@@ -25,7 +25,15 @@ export async function createOrderFromCart(user, { address, shippingMethod, payme
 
   // A customer retrying checkout should not keep stock locked by an abandoned online-payment order.
   const abandoned = await Order.find({ user: user._id, status: 'pending_payment', paymentStatus: { $ne: 'paid' } });
-  for (const old of abandoned) await cancelOrder(old, 'Superseded by a new checkout attempt');
+  for (const old of abandoned) {
+    // The earlier attempt may have been paid even though the callback never reached us.
+    const paid = old.payment?.razorpayOrderId && (await findCapturedPayment(old.payment.razorpayOrderId, old.total).catch(() => null));
+    if (paid) {
+      await markOrderPaid(old, paid.id);
+      throw ApiError.conflict(`Your payment for order ${old.orderNumber} was received. Please check My Orders before paying again.`);
+    }
+    await cancelOrder(old, 'Superseded by a new checkout attempt');
+  }
 
   await reserveStock(lines.map((l) => ({ productId: l.productId, variantSku: l.variantSku, quantity: l.quantity, name: l.product.name })));
 
@@ -85,6 +93,16 @@ export async function createOrderFromCart(user, { address, shippingMethod, payme
 /** Idempotently marks an order paid. Safe to call from both the checkout callback and the webhook. */
 export async function markOrderPaid(order, razorpayPaymentId) {
   if (order.paymentStatus === 'paid') return order;
+  // Claim the transition atomically so a callback and webhook arriving together process it once.
+  const claimed = await Order.updateOne(
+    { _id: order._id, paymentStatus: { $ne: 'paid' } },
+    { $set: { paymentStatus: 'paid', 'payment.razorpayPaymentId': razorpayPaymentId, 'payment.paidAt': new Date() } },
+  );
+  if (claimed.modifiedCount === 0) {
+    const fresh = await Order.findById(order._id);
+    order.set(fresh.toObject());
+    return order;
+  }
   order.paymentStatus = 'paid';
   order.payment.razorpayPaymentId = razorpayPaymentId;
   order.payment.paidAt = new Date();

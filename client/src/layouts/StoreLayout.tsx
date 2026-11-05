@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router'
 import { AnnouncementBar, Header } from '../components/layout/Header'
 import { Footer } from '../components/layout/Footer'
+import { FloatingContact } from '../components/layout/FloatingContact'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -24,6 +25,7 @@ export function StoreLayout() {
         <Outlet />
       </main>
       <Footer />
+      <FloatingContact />
     </div>
   )
 }
