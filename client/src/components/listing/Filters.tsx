@@ -1,3 +1,4 @@
+import { features } from '../../config/features'
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import type { Facets, FacetOption } from '../../types'
@@ -83,12 +84,14 @@ export function FilterPanel({ facets, params, hidden, onToggle, onPrice, onInSto
         )
       })}
 
+      {features.showPrices && (
       <Section title="Price">
         <Check type="radio" name="price" checked={priceKey === '-'} onChange={() => onPrice()} label="Any price" />
         {PRICE_RANGES.map((r) => (
           <Check key={r.label} type="radio" name="price" checked={priceKey === `${r.min ?? ''}-${r.max ?? ''}`} onChange={() => onPrice(r.min, r.max)} label={r.label} />
         ))}
       </Section>
+      )}
 
       <Section title="Availability">
         <Check checked={params.get('inStock') === 'true'} onChange={() => onInStock(params.get('inStock') !== 'true')} label="In stock only" count={facets?.inStockCount} />

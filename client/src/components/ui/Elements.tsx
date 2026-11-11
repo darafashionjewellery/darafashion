@@ -1,7 +1,7 @@
 import { useState, type InputHTMLAttributes, type ReactNode } from 'react'
 import { Link } from 'react-router'
 import { ChevronDown, ChevronRight, Minus, Plus, Star } from 'lucide-react'
-import { cn, formatPrice } from '../../lib/utils'
+import { cn } from '../../lib/utils'
 
 export function Breadcrumbs({ items }: { items: { label: string; to?: string }[] }) {
   return (
@@ -50,8 +50,8 @@ export function SectionHeading({ eyebrow, title, subtitle, action, align = 'cent
   )
 }
 
-export function Price({ price, compareAtPrice, discountPercent, size = 'md' }: { price: number; compareAtPrice?: number | null; discountPercent?: number; size?: 'sm' | 'md' | 'lg' }) {
-  const showCompare = compareAtPrice && compareAtPrice > price
+// Price display is currently turned off; the original markup is kept below for when it is re-enabled.
+export function Price(_props: { price: number; compareAtPrice?: number | null; discountPercent?: number; size?: 'sm' | 'md' | 'lg' }) {
   return (
   <>
   {/* price */}

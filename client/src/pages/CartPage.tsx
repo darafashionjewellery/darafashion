@@ -1,3 +1,4 @@
+import { features } from '../config/features'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { ShieldCheck, ShoppingBag, Trash2, Truck } from 'lucide-react'
@@ -8,7 +9,7 @@ import { useDocumentTitle } from '../hooks/misc'
 import { EmptyState, PageLoader } from '../components/ui/States'
 import { QuantitySelector } from '../components/ui/Elements'
 import { SmartImage } from '../components/ui/Images'
-import { TotalsTable } from '../components/checkout/OrderSummary'
+// import { TotalsTable } from '../components/checkout/OrderSummary'
 import type { CartLine } from '../types'
 import { cn, formatPrice } from '../lib/utils'
 
@@ -39,7 +40,7 @@ export default function CartPage() {
 
       <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_380px]">
         <div>
-          {remainingForFree > 0 && totals.freeShippingThreshold > 0 && (
+          {features.showPrices && remainingForFree > 0 && totals.freeShippingThreshold > 0 && (
             <p className="mb-4 flex items-center gap-2 rounded-lg bg-cream-light p-3 text-sm">
               <Truck className="size-4 text-brand-dark" aria-hidden />
               Add {formatPrice(remainingForFree)} more for free standard shipping.

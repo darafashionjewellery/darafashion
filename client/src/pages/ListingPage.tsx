@@ -1,3 +1,4 @@
+import { features } from '../config/features'
 import { useMemo, useState, type ReactNode } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { SearchX, SlidersHorizontal, X } from 'lucide-react'
@@ -123,7 +124,7 @@ export function ListingPage({ title, subtitle, scope = {}, banner, breadcrumbs, 
   }
   if (params.get('inStock') === 'true') chips.push({ label: 'In stock', onRemove: () => setInStock(false) })
 
-  const sortOptions = SORT_OPTIONS.filter((o) => !o.needsData || data?.popularityAvailable)
+  const sortOptions = SORT_OPTIONS.filter((o) => (!o.needsData || data?.popularityAvailable) && (features.showPrices || !o.value.startsWith('price')))
   const panel = <FilterPanel facets={data?.facets} params={params} hidden={hidden} onToggle={toggle} onPrice={setPrice} onInStock={setInStock} styleLabels={styleLabels} />
 
   return (

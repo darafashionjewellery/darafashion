@@ -1,3 +1,4 @@
+import { features } from '../../config/features'
 import { useEffect, useId, useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { Search, X } from 'lucide-react'
@@ -95,7 +96,7 @@ export function SearchBox({ autoFocus, onNavigate, className }: { autoFocus?: bo
                   >
                     <SmartImage src={p.images[0]} alt="" className="size-12 rounded-md object-cover" />
                     <span className="flex-1 text-sm">{p.name}</span>
-                    <span className="text-sm font-medium">{formatPrice(p.price)}</span>
+                    {features.showPrices && <span className="text-sm font-medium">{formatPrice(p.price)}</span>}
                   </Link>
                 </li>
               ))}

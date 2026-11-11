@@ -3,7 +3,7 @@ import { Eye, Heart } from 'lucide-react'
 import type { Product } from '../../types'
 import { useWishlist } from '../../context/WishlistContext'
 import { useQuickView } from './QuickView'
-import { Price, Rating } from '../ui/Elements'
+import { Rating } from '../ui/Elements'
 import { SmartImage } from '../ui/Images'
 import { cn } from '../../lib/utils'
 
