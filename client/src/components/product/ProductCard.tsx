@@ -61,7 +61,8 @@ export function ProductCard({ product, showCategory = false }: { product: Produc
           </Link>
         </h3>
         {product.ratingCount > 0 && <Rating value={product.ratingAverage} count={product.ratingCount} />}
-        <Price price={product.price} compareAtPrice={product.compareAtPrice} discountPercent={product.discountPercent} size="sm" />
+          {/* price */}
+        {/* <Price price={product.price} compareAtPrice={product.compareAtPrice} discountPercent={product.discountPercent} size="sm" /> */}
         {product.hasVariants && product.variants.some((v) => v.swatch) && (
           <div className="mt-1 flex gap-1.5" aria-label="Available finishes">
             {product.variants.map((v) => (

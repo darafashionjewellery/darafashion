@@ -53,7 +53,9 @@ export function SectionHeading({ eyebrow, title, subtitle, action, align = 'cent
 export function Price({ price, compareAtPrice, discountPercent, size = 'md' }: { price: number; compareAtPrice?: number | null; discountPercent?: number; size?: 'sm' | 'md' | 'lg' }) {
   const showCompare = compareAtPrice && compareAtPrice > price
   return (
-    <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+  <>
+  {/* price */}
+  {/* <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
       <span className={cn('font-medium text-ink', size === 'lg' ? 'text-2xl' : size === 'md' ? 'text-base' : 'text-sm')}>{formatPrice(price)}</span>
       {showCompare && (
         <>
@@ -64,7 +66,8 @@ export function Price({ price, compareAtPrice, discountPercent, size = 'md' }: {
           {!!discountPercent && <span className={cn('font-medium text-sage-dark', size === 'lg' ? 'text-sm' : 'text-xs')}>{discountPercent}% off</span>}
         </>
       )}
-    </div>
+    </div> */}
+  </>
   )
 }
 

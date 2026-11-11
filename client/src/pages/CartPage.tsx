@@ -62,7 +62,8 @@ export default function CartPage() {
 
         <aside className="h-fit rounded-card bg-cream-light p-6 lg:sticky lg:top-36" aria-label="Price details">
           <h2 className="mb-4 text-2xl">Price Details</h2>
-          <TotalsTable totals={totals} shippingLabel={totals.shippingMethod.label} />
+            {/* price */}
+          {/* <TotalsTable totals={totals} shippingLabel={totals.shippingMethod.label} /> */}
           <p className="mt-2 text-xs text-muted">Shipping method can be changed at checkout.</p>
           <button onClick={checkout} disabled={totals.hasIssues} className="btn-primary mt-6 w-full">
             Proceed to Checkout
@@ -111,15 +112,18 @@ function CartRow({ line }: { line: CartLine }) {
           <div>
             {slug ? (
               <Link to={`/product/${slug}`} className="font-medium hover:text-brand-dark">
+                
                 {line.product?.name}
               </Link>
             ) : (
               <p className="font-medium">Unavailable item</p>
             )}
             {line.variantLabel && <p className="text-xs text-muted">Finish: {line.variantLabel}</p>}
-            {line.unitPrice !== undefined && <p className="mt-1 text-sm text-muted">{formatPrice(line.unitPrice)} each</p>}
+              {/* price */}
+            {/* {line.unitPrice !== undefined && <p className="mt-1 text-sm text-muted">{formatPrice(line.unitPrice)} each</p>} */}
           </div>
-          {line.lineTotal !== undefined && <p className="font-medium">{formatPrice(line.lineTotal)}</p>}
+            {/* price */}
+          {/* {line.lineTotal !== undefined && <p className="font-medium">{formatPrice(line.lineTotal)}</p>} */}
         </div>
         {line.issue && (
           <p className="text-xs font-medium text-danger" role="alert">
